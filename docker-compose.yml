@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  acsm-converter:
+  acsm-convert:
     build: .
     ports:
       - "5070:5000"
