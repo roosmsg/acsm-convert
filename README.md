@@ -1,2 +1,2 @@
 # acsm-convert
-Download and convert ACSM files
+ACSM download and remove DRM, for Docker.
