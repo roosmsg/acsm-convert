@@ -14,7 +14,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Bootstrap-based template
 TEMPLATE = '''
 <!doctype html>
-<html lang="nl">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,14 +33,14 @@ TEMPLATE = '''
       {% endif %}
       <form method="post" enctype="multipart/form-data">
         <div class="form-group">
-          <label for="fileInput">Kies een .acsm bestand</label>
+          <label for="fileInput">Choose a .acsm file</label>
           <input type="file" class="form-control-file" id="fileInput" name="file" accept=".acsm" required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Converteer</button>
+        <button type="submit" class="btn btn-primary btn-block">Convert</button>
       </form>
       {% if download_url %}
         <hr>
-        <a href="{{ download_url }}" class="btn btn-success btn-block">Download jouw ebook</a>
+        <a href="{{ download_url }}" class="btn btn-success btn-block">Download your ebook</a>
       {% endif %}
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
@@ -68,7 +68,7 @@ def upload_file():
         # Save ACSM
         file = request.files.get('file')
         if not file:
-            error = 'Geen bestand geüpload.'
+            error = 'No file uploaded.'
             return render_template_string(TEMPLATE, error=error)
         acsm_filename = file.filename
         acsm_path = os.path.join(UPLOAD_FOLDER, acsm_filename)
@@ -92,7 +92,7 @@ def upload_file():
         try:
             subprocess.run(cmd1, check=True, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
-            error = f"Downloadfout: {e.stderr or e.stdout}"
+            error = f"Download error: {e.stderr or e.stdout}"
             return render_template_string(TEMPLATE, error=error)
 
         # Step 2: remove DRM
@@ -101,7 +101,7 @@ def upload_file():
         try:
             subprocess.run(cmd2, check=True, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
-            error = f"DRM-verwijderingsfout: {e.stderr or e.stdout}"
+            error = f"DRM removal error: {e.stderr or e.stdout}"
             return render_template_string(TEMPLATE, error=error)
 
         # Provide download link
