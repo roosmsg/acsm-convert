@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  flask-app:
+    build: .
+    ports:
+      - "5070:5000"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/acsm-data/adept:/home/libgourou/.adept
+      - ~/acsm-data/uploads:/home/libgourou/files
